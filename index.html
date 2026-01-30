@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>GIRJA REFRIGERATION | Premium Service Center</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<!-- ICONS -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+<!-- EMAILJS -->
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+
+<style>
+body{
+  margin:0;
+  font-family:Arial,Helvetica,sans-serif;
+  background:#eef2f7;
+  padding-bottom:90px;
+}
+
+/* HEADER */
+.header{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  padding:12px;
+  background:#0a1a44;
+  color:#fff;
+}
+.logo{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+  background:linear-gradient(135deg,#00b4ff,#004aad);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+}
+
+/* GLASS EFFECT */
+.glass{
+  background:rgba(255,255,255,0.2);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+  border-radius:18px;
+  box-shadow:0 8px 30px rgba(0,0,0,.15);
+}
+
+/* PAGES */
+.page{display:none;padding:15px}
+.page.active{display:block}
+
+/* HERO */
+.hero{
+  margin:15px;
+  padding:28px;
+  text-align:center;
+  color:#fff;
+  background:linear-gradient(135deg,#004aad,#00b4ff,#6a11cb);
+  background-size:300% 300%;
+  animation:bgMove 7s ease infinite;
+}
+@keyframes bgMove{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+.hero h2{margin:0 0 8px 0}
+.hero button{
+  margin-top:15px;
+  padding:12px 20px;
+  border:none;
+  border-radius:12px;
+  background:#ff9800;
+  color:#fff;
+  font-size:15px;
+  cursor:pointer;
+}
+
+/* SERVICES */
+.services{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-top:15px;
+}
+.card{
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(10px);
+  border-radius:16px;
+  padding:15px;
+  text-align:center;
+  box-shadow:0 8px 20px rgba(0,0,0,.12);
+}
+.card i{font-size:26px;color:#004aad}
+
+/* FLOAT BOOKING */
+.float-book{
+  position:fixed;
+  right:18px;
+  bottom:110px;
+  background:#ff9800;
+  color:#fff;
+  padding:16px;
+  border-radius:50%;
+  font-size:20px;
+  cursor:pointer;
+  animation:float 2.5s ease-in-out infinite;
+  z-index:999;
+}
+@keyframes float{
+  50%{transform:translateY(-8px)}
+}
+
+/* POPUP */
+.popup{
+  display:none;
+  position:fixed;
+  top:0;left:0;
+  width:100%;height:100%;
+  background:rgba(0,0,0,.6);
+  z-index:1000;
+}
+.popup-box{
+  position:relative;
+  background:#fff;
+  width:90%;
+  max-width:360px;
+  margin:80px auto;
+  padding:20px;
+  border-radius:16px;
+}
+.popup-box input,.popup-box select{
+  width:100%;
+  padding:10px;
+  margin:6px 0;
+}
+.popup-box button{
+  width:100%;
+  padding:10px;
+  background:#004aad;
+  color:#fff;
+  border:none;
+  border-radius:10px;
+}
+.close-btn{
+  position:absolute;
+  top:10px;
+  right:14px;
+  font-size:18px;
+  cursor:pointer;
+}
+
+/* TECH GALLERY */
+.tech-gallery{
+  display:flex;
+  gap:12px;
+  overflow-x:auto;
+  margin-top:10px;
+}
+.tech-gallery img{
+  width:160px;
+  height:120px;
+  object-fit:cover;
+  border-radius:16px;
+  box-shadow:0 6px 16px rgba(0,0,0,.2);
+}
+
+/* REVIEWS */
+.reviews{
+  margin-top:20px;
+}
+.review{
+  background:#fff;
+  padding:14px;
+  border-radius:14px;
+  margin-bottom:10px;
+  box-shadow:0 6px 14px rgba(0,0,0,.1);
+}
+.stars{color:#ff9800}
+
+/* ORDERS */
+.order{
+  background:#fff;
+  padding:12px;
+  border-radius:14px;
+  margin-bottom:10px;
+}
+.today{border-left:5px solid #00b4ff}
+
+/* BOTTOM BAR */
+.bottom{
+  position:fixed;
+  bottom:0;left:0;
+  width:100%;
+  background:#fff;
+  display:flex;
+  justify-content:space-around;
+  padding:10px;
+  border-top:1px solid #ddd;
+}
+.bottom a{
+  text-decoration:none;
+  color:#333;
+  font-size:12px;
+  text-align:center;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">GR</div>
+  <b>GIRJA REFRIGERATION</b>
+</div>
+
+<!-- HOME -->
+<div id="home" class="page active">
+
+  <div class="hero glass">
+    <h2>Comfort You Can Trust</h2>
+    <p>Fast • Reliable • Professional Home Services</p>
+    <button onclick="openBooking()">Book Instant Service →</button>
+  </div>
+
+  <div class="services">
+    <div class="card"><i class="fa-solid fa-snowflake"></i><p>AC Service</p></div>
+    <div class="card"><i class="fa-solid fa-temperature-low"></i><p>Fridge</p></div>
+    <div class="card"><i class="fa-solid fa-fan"></i><p>Cooler</p></div>
+    <div class="card"><i class="fa-solid fa-droplet"></i><p>RO</p></div>
+    <div class="card"><i class="fa-solid fa-plug-circle-bolt"></i><p>Wiring</p></div>
+    <div class="card"><i class="fa-solid fa-shirt"></i><p>Washing</p></div>
+  </div>
+
+  <!-- TECH IMAGES -->
+  <div class="tech-gallery">
+    <img src="https://images.unsplash.com/photo-1581091215367-59ab6c7c1b66">
+    <img src="https://images.unsplash.com/photo-1598257006458-087169a1f08d">
+    <img src="https://images.unsplash.com/photo-1600880292089-90a7e086ee0c">
+  </div>
+
+  <!-- REVIEWS -->
+  <div class="reviews">
+    <h3>⭐ Customer Reviews</h3>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <b>Rohit Kumar</b><br>
+      Very fast AC service. Technician was polite and professional.
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★★</div>
+      <b>Anjali Singh</b><br>
+      Best service center in area. Affordable and genuine work.
+    </div>
+
+    <div class="review">
+      <div class="stars">★★★★☆</div>
+      <b>Md. Faizan</b><br>
+      RO repair done same day. Highly recommended.
+    </div>
+  </div>
+
+</div>
+
+<!-- ACCOUNT -->
+<div id="account" class="page"></div>
+
+<!-- ORDERS -->
+<div id="orders" class="page"></div>
+
+<!-- FLOAT BOOK -->
+<div class="float-book" onclick="openBooking()">
+  <i class="fa-solid fa-calendar-check"></i>
+</div>
+
+<!-- BOOKING POPUP -->
+<div class="popup" id="bookPop">
+  <div class="popup-box">
+    <div class="close-btn" onclick="closePopup('bookPop')">✖</div>
+    <h3>Book Service</h3>
+    <input id="name" placeholder="Name">
+    <input id="location" placeholder="Location">
+    <input id="service" placeholder="Service">
+    <select id="tech">
+      <option>Ramesh (AC)</option>
+      <option>Suresh (RO)</option>
+      <option>Amit (Electric)</option>
+    </select>
+    <button onclick="book()">Book Now</button>
+  </div>
+</div>
+
+<!-- LOGIN POPUP -->
+<div class="popup" id="loginPop">
+  <div class="popup-box">
+    <div class="close-btn" onclick="closePopup('loginPop')">✖</div>
+    <h3>Login</h3>
+    <input id="phone" placeholder="+91XXXXXXXXXX">
+    <div id="recaptcha"></div>
+    <button onclick="sendOTP()">Send OTP</button>
+    <input id="otp" placeholder="OTP">
+    <button onclick="verifyOTP()">Verify</button>
+  </div>
+</div>
+
+<!-- BOTTOM BAR -->
+<div class="bottom">
+  <a onclick="openPage('home')">🏠<br>Home</a>
+  <a onclick="openBooking()">🛠<br>Service</a>
+  <a onclick="openPage('orders')">📦<br>Orders</a>
+  <a onclick="openPage('account')">👤<br>Account</a>
+</div>
+
+<script>
+/* EMAILJS */
+emailjs.init("YOUR_PUBLIC_KEY");
+
+/* FIREBASE */
+firebase.initializeApp({
+  apiKey:"AIzaSyCyRePp03hTEVpVNQRhjs70T4N-MZwg6JY",
+  authDomain:"girja-refrigeration.firebaseapp.com"
+});
+const auth=firebase.auth();
+window.recaptchaVerifier=new firebase.auth.RecaptchaVerifier(
+  'recaptcha',{size:'normal'}
+);
+
+/* LOGIN */
+function sendOTP(){
+  auth.signInWithPhoneNumber(phone.value,recaptchaVerifier)
+  .then(r=>{window.cr=r;alert("OTP Sent")});
+}
+function verifyOTP(){
+  cr.confirm(otp.value).then(r=>{
+    localStorage.setItem("mobile",r.user.phoneNumber);
+    loginPop.style.display="none";
+    alert("Login Successful");
+  });
+}
+
+/* NAV */
+function openPage(p){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.getElementById(p).classList.add('active');
+  loadAccount();loadOrders();
+}
+function closePopup(id){document.getElementById(id).style.display="none";}
+
+/* BOOKING */
+function openBooking(){
+  if(!localStorage.getItem("mobile")){
+    loginPop.style.display="block";return;
+  }
+  bookPop.style.display="block";
+}
+function book(){
+  let o={
+    name:name.value,
+    mobile:localStorage.getItem("mobile"),
+    location:location.value,
+    service:service.value,
+    tech:tech.value,
+    time:new Date().toLocaleString()
+  };
+  let arr=JSON.parse(localStorage.getItem("orders")||"[]");
+  arr.unshift(o);
+  localStorage.setItem("orders",JSON.stringify(arr));
+
+  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID",o);
+
+  window.open(
+    "https://wa.me/16475572631?text="+
+    encodeURIComponent(`New Booking\n${o.name}\n${o.mobile}\n${o.service}`)
+  );
+
+  bookPop.style.display="none";
+  alert("Booking Successful");
+}
+
+/* ACCOUNT */
+function loadAccount(){
+  let m=localStorage.getItem("mobile");
+  account.innerHTML=m?
+    `<div class="order"><b>Mobile:</b> ${m}</div>`:
+    `<div class="order">Not Logged In</div>`;
+}
+
+/* ORDERS */
+function loadOrders(){
+  let arr=JSON.parse(localStorage.getItem("orders")||"[]");
+  orders.innerHTML="";
+  let today=new Date().toLocaleDateString();
+  arr.forEach(o=>{
+    let d=new Date(o.time).toLocaleDateString();
+    orders.innerHTML+=`
+    <div class="order ${d===today?'today':''}">
+      <b>${o.service}</b><br>
+      👨‍🔧 ${o.tech}<br>
+      📅 ${o.time}
+    </div>`;
+  });
+}
+</script>
+
+</body>
+</html>
