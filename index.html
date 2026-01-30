@@ -5,15 +5,7 @@
 <title>GIRJA REFRIGERATION | Premium Service</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<!-- Icons (for buttons only) -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-<!-- Firebase (OTP Login) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
-<!-- EmailJS (Email notification) -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <style>
 body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
@@ -60,30 +52,26 @@ body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
   font-size:15px;cursor:pointer
 }
 
-/* SERVICES (REAL IMAGE ICONS) */
+/* SERVICES */
 .services{
   display:grid;grid-template-columns:repeat(3,1fr);
   gap:14px;margin-top:16px
 }
 .service-card{
-  background:rgba(255,255,255,.9);
-  border-radius:18px;padding:18px 10px;text-align:center;
-  box-shadow:0 10px 25px rgba(0,0,0,.12);
-  transition:.25s
+  background:#fff;border-radius:18px;padding:18px 10px;
+  text-align:center;box-shadow:0 10px 25px rgba(0,0,0,.12)
 }
-.service-card:hover{transform:translateY(-4px)}
 .service-card img{
   width:48px;height:48px;object-fit:contain;margin-bottom:8px
 }
-.service-card p{margin:0;font-weight:500}
 
-/* FLOAT BOOKING */
+/* FLOAT */
 .float-book{
   position:fixed;right:18px;bottom:110px;
   background:#ff9800;color:#fff;
   padding:16px;border-radius:50%;
   font-size:20px;cursor:pointer;
-  animation:float 2.5s ease-in-out infinite;z-index:999
+  animation:float 2.5s infinite;z-index:999
 }
 @keyframes float{50%{transform:translateY(-8px)}}
 
@@ -94,9 +82,9 @@ body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
   background:rgba(0,0,0,.6);z-index:1000
 }
 .popup-box{
-  position:relative;background:#fff;width:90%;
-  max-width:360px;margin:80px auto;
-  padding:20px;border-radius:16px
+  background:#fff;width:90%;max-width:360px;
+  margin:80px auto;padding:20px;border-radius:16px;
+  position:relative
 }
 .popup-box input,.popup-box select{
   width:100%;padding:10px;margin:6px 0
@@ -107,17 +95,17 @@ body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
 }
 .close-btn{
   position:absolute;top:10px;right:14px;
-  font-size:18px;cursor:pointer
+  cursor:pointer;font-size:18px
 }
 
-/* ORDERS / ACCOUNT */
+/* ACCOUNT / ORDERS */
 .order{
   background:#fff;padding:12px;border-radius:14px;
   margin-bottom:10px
 }
 .today{border-left:5px solid #00b4ff}
 
-/* BOTTOM BAR */
+/* BOTTOM */
 .bottom{
   position:fixed;bottom:0;left:0;width:100%;
   background:#fff;display:flex;justify-content:space-around;
@@ -145,32 +133,13 @@ body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
     <button onclick="openBooking()">Book Instant Service →</button>
   </div>
 
-  <!-- SERVICES (replace image links with your real logos) -->
   <div class="services">
-    <div class="service-card">
-      <img src="https://via.placeholder.com/64">
-      <p>AC Service</p>
-    </div>
-    <div class="service-card">
-      <img src="https://via.placeholder.com/64">
-      <p>Fridge</p>
-    </div>
-    <div class="service-card">
-      <img src="https://via.placeholder.com/64">
-      <p>Cooler</p>
-    </div>
-    <div class="service-card">
-      <img src="https://via.placeholder.com/64">
-      <p>RO</p>
-    </div>
-    <div class="service-card">
-      <img src="https://via.placeholder.com/64">
-      <p>Wiring</p>
-    </div>
-    <div class="service-card">
-      <img src="https://via.placeholder.com/64">
-      <p>Washing</p>
-    </div>
+    <div class="service-card"><img src="https://via.placeholder.com/64"><p>AC</p></div>
+    <div class="service-card"><img src="https://via.placeholder.com/64"><p>Fridge</p></div>
+    <div class="service-card"><img src="https://via.placeholder.com/64"><p>Cooler</p></div>
+    <div class="service-card"><img src="https://via.placeholder.com/64"><p>RO</p></div>
+    <div class="service-card"><img src="https://via.placeholder.com/64"><p>Wiring</p></div>
+    <div class="service-card"><img src="https://via.placeholder.com/64"><p>Washing</p></div>
   </div>
 </div>
 
@@ -180,12 +149,12 @@ body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
 <!-- ORDERS -->
 <div id="orders" class="page"></div>
 
-<!-- FLOAT BOOK -->
+<!-- FLOAT -->
 <div class="float-book" onclick="openBooking()">
   <i class="fa-solid fa-calendar-check"></i>
 </div>
 
-<!-- BOOKING POPUP -->
+<!-- BOOKING -->
 <div class="popup" id="bookPop">
   <div class="popup-box">
     <div class="close-btn" onclick="closePopup('bookPop')">✖</div>
@@ -202,28 +171,25 @@ body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
   </div>
 </div>
 
-<!-- LOGIN REQUIRED MESSAGE -->
-<div class="popup" id="loginMsgPop">
+<!-- LOGIN REQUIRED -->
+<div class="popup" id="loginMsg">
   <div class="popup-box">
-    <div class="close-btn" onclick="closePopup('loginMsgPop')">✖</div>
+    <div class="close-btn" onclick="closePopup('loginMsg')">✖</div>
     <h3>Login Required</h3>
-    <p style="text-align:center">
-      Please login first to book a service
-    </p>
-    <button onclick="openLogin()">Login Now</button>
+    <p>Please login first to continue</p>
+    <button onclick="openLogin()">Login with WhatsApp</button>
   </div>
 </div>
 
-<!-- LOGIN POPUP -->
+<!-- WHATSAPP OTP LOGIN -->
 <div class="popup" id="loginPop">
   <div class="popup-box">
     <div class="close-btn" onclick="closePopup('loginPop')">✖</div>
-    <h3>Login</h3>
-    <input id="phone" placeholder="+91XXXXXXXXXX">
-    <div id="recaptcha"></div>
-    <button onclick="sendOTP()">Send OTP</button>
-    <input id="otp" placeholder="OTP">
-    <button onclick="verifyOTP()">Verify</button>
+    <h3>WhatsApp OTP Login</h3>
+    <input id="waPhone" placeholder="+91XXXXXXXXXX">
+    <button onclick="sendWhatsAppOTP()">Send OTP on WhatsApp</button>
+    <input id="waOtp" placeholder="Enter OTP">
+    <button onclick="verifyWhatsAppOTP()">Verify OTP</button>
   </div>
 </div>
 
@@ -236,26 +202,18 @@ body{margin:0;font-family:Arial;background:#eef2f7;padding-bottom:90px}
 </div>
 
 <script>
-/* ========= CONFIG ========= */
+/* ===== GLOBAL ===== */
+const WHATSAPP_ADMIN = "16475572631"; // without +
+let GENERATED_OTP = null;
 
-// EmailJS (REPLACE)
-emailjs.init("YOUR_PUBLIC_KEY");
+function isLoggedIn(){
+  return !!localStorage.getItem("mobile");
+}
+function closePopup(id){
+  document.getElementById(id).style.display="none";
+}
 
-// Firebase (your project)
-firebase.initializeApp({
-  apiKey: "AIzaSyCyRePp03hTEVpVNQRhjs70T4N-MZwg6JY",
-  authDomain: "girja-refrigeration.firebaseapp.com"
-});
-const auth = firebase.auth();
-window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
-  'recaptcha',{size:'invisible'}
-);
-
-/* ========= HELPERS ========= */
-function isLoggedIn(){ return !!localStorage.getItem("mobile"); }
-function closePopup(id){ document.getElementById(id).style.display="none"; }
-
-/* ========= NAV ========= */
+/* ===== NAV ===== */
 function openPage(p){
   document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
   document.getElementById(p).classList.add('active');
@@ -264,48 +222,59 @@ function openPage(p){
 }
 function openAccount(){
   if(!isLoggedIn()){
-    document.getElementById("loginMsgPop").style.display="block";
-    return;
+    loginMsg.style.display="block";return;
   }
   openPage('account');
 }
 function openOrders(){
   if(!isLoggedIn()){
-    document.getElementById("loginMsgPop").style.display="block";
-    return;
+    loginMsg.style.display="block";return;
   }
   openPage('orders');
 }
 
-/* ========= BOOKING ========= */
+/* ===== LOGIN ===== */
+function openLogin(){
+  closePopup('loginMsg');
+  loginPop.style.display="block";
+}
+function sendWhatsAppOTP(){
+  if(waPhone.value.length<8){
+    alert("Enter valid phone");return;
+  }
+  GENERATED_OTP = Math.floor(100000 + Math.random()*900000).toString();
+
+  const msg =
+`GIRJA REFRIGERATION 🔧
+Your login OTP is: ${GENERATED_OTP}
+Do not share this OTP.`;
+
+  window.open(
+    `https://wa.me/${WHATSAPP_ADMIN}?text=`+
+    encodeURIComponent(`OTP Request from ${waPhone.value}\n\n${msg}`)
+  );
+
+  alert("OTP generated. Send it on WhatsApp.");
+}
+function verifyWhatsAppOTP(){
+  if(waOtp.value === GENERATED_OTP){
+    localStorage.setItem("mobile", waPhone.value);
+    GENERATED_OTP = null;
+    closePopup('loginPop');
+    alert("Login successful");
+    openBooking();
+  } else {
+    alert("Wrong OTP");
+  }
+}
+
+/* ===== BOOKING ===== */
 function openBooking(){
   if(!isLoggedIn()){
-    document.getElementById("loginMsgPop").style.display="block";
-    return;
+    loginMsg.style.display="block";return;
   }
-  document.getElementById("bookPop").style.display="block";
+  bookPop.style.display="block";
 }
-
-/* ========= LOGIN ========= */
-function openLogin(){
-  closePopup('loginMsgPop');
-  document.getElementById("loginPop").style.display="block";
-}
-function sendOTP(){
-  auth.signInWithPhoneNumber(phone.value, recaptchaVerifier)
-  .then(r=>{ window.cr=r; alert("OTP Sent"); })
-  .catch(e=>alert(e.message));
-}
-function verifyOTP(){
-  cr.confirm(otp.value).then(r=>{
-    localStorage.setItem("mobile", r.user.phoneNumber);
-    closePopup('loginPop');
-    alert("Login Successful");
-    openBooking(); // auto go to booking
-  }).catch(()=>alert("Wrong OTP"));
-}
-
-/* ========= BOOK ========= */
 function book(){
   let o={
     name:name.value,
@@ -325,12 +294,8 @@ function book(){
   arr.unshift(o);
   localStorage.setItem("orders", JSON.stringify(arr));
 
-  // Email notification
-  emailjs.send("YOUR_SERVICE_ID","YOUR_TEMPLATE_ID", o);
-
-  // WhatsApp auto
   window.open(
-    "https://wa.me/16475572631?text="+
+    `https://wa.me/16475572631?text=`+
     encodeURIComponent(`New Booking\n${o.name}\n${o.mobile}\n${o.service}`)
   );
 
@@ -338,15 +303,15 @@ function book(){
   alert("Booking Successful");
 }
 
-/* ========= ACCOUNT ========= */
+/* ===== ACCOUNT ===== */
 function loadAccount(){
   let m=localStorage.getItem("mobile");
   let u=JSON.parse(localStorage.getItem("user")||"{}");
   account.innerHTML=`
     <div class="order">
-      <b>Name:</b> ${u.name||"Not set"}<br>
+      <b>Name:</b> ${u.name||"-"}<br>
       <b>Mobile:</b> ${m}<br>
-      <b>Location:</b> ${u.location||"Not set"}
+      <b>Location:</b> ${u.location||"-"}
     </div>
     <button onclick="logout()" style="
       width:100%;padding:10px;border:none;
@@ -362,7 +327,7 @@ function logout(){
   }
 }
 
-/* ========= ORDERS ========= */
+/* ===== ORDERS ===== */
 function loadOrders(){
   let arr=JSON.parse(localStorage.getItem("orders")||"[]");
   orders.innerHTML="";
